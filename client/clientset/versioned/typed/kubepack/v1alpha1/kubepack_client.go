@@ -29,6 +29,7 @@ type KubepackV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	ApplicationsGetter
 	BundlesGetter
+	ChartsGetter
 	OrdersGetter
 	PlansGetter
 	ProductsGetter
@@ -45,6 +46,10 @@ func (c *KubepackV1alpha1Client) Applications(namespace string) ApplicationInter
 
 func (c *KubepackV1alpha1Client) Bundles() BundleInterface {
 	return newBundles(c)
+}
+
+func (c *KubepackV1alpha1Client) Charts(namespace string) ChartInterface {
+	return newCharts(c, namespace)
 }
 
 func (c *KubepackV1alpha1Client) Orders() OrderInterface {

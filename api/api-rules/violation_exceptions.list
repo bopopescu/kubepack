@@ -174,9 +174,12 @@ API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alph
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,BundleSpec,Packages
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartCard,Features
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartCard,Versions
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartList,Items
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartOption,Features
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartOption,Versions
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartSelection,WaitFors
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartSpec,Info
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ChartSpec,Steps
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ComponentList,Objects
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Descriptor,Owners
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,FeatureTable,Plans
@@ -204,7 +207,11 @@ API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alph
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Repository,Maintainers
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ResourceDefinitions,Owned
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ResourceDefinitions,Required
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ResourceValueMap,Values
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Row,Values
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Step,ExportValues
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Step,Templates
+API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Step,WaitFors
 API rule violation: list_type_missing,kubepack.dev/kubepack/apis/kubepack/v1alpha1,VersionDetail,WaitFors
 API rule violation: names_match,k8s.io/api/core/v1,AzureDiskVolumeSource,DataDiskURI
 API rule violation: names_match,k8s.io/api/core/v1,ContainerStatus,LastTerminationState
@@ -275,4 +282,5 @@ API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,Pla
 API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,PlanSpec,StripeID
 API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ProductSpec,Media
 API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ProductSpec,StripeID
+API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,ResourceValueMap,Values
 API rule violation: names_match,kubepack.dev/kubepack/apis/kubepack/v1alpha1,WaitFlags,ForCondition

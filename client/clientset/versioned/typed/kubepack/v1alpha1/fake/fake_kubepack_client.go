@@ -37,6 +37,10 @@ func (c *FakeKubepackV1alpha1) Bundles() v1alpha1.BundleInterface {
 	return &FakeBundles{c}
 }
 
+func (c *FakeKubepackV1alpha1) Charts(namespace string) v1alpha1.ChartInterface {
+	return &FakeCharts{c, namespace}
+}
+
 func (c *FakeKubepackV1alpha1) Orders() v1alpha1.OrderInterface {
 	return &FakeOrders{c}
 }

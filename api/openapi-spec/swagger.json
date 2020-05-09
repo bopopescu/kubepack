@@ -1166,18 +1166,11 @@
     "dev.kubepack.kubepack.apis.kubepack.v1alpha1.ApplicationPackage": {
       "type": "object",
       "required": [
-        "chart",
-        "channel"
+        "chart"
       ],
       "properties": {
-        "bundle": {
-          "$ref": "#/definitions/dev.kubepack.kubepack.apis.kubepack.v1alpha1.ChartRepoRef"
-        },
-        "channel": {
-          "type": "string"
-        },
         "chart": {
-          "$ref": "#/definitions/dev.kubepack.kubepack.apis.kubepack.v1alpha1.ChartRepoRef"
+          "$ref": "#/definitions/dev.kubepack.kubepack.apis.kubepack.v1alpha1.ChartParameters"
         }
       }
     },
@@ -1185,7 +1178,8 @@
       "description": "ApplicationSpec defines the specification for an Application.",
       "type": "object",
       "required": [
-        "package"
+        "package",
+        "channel"
       ],
       "properties": {
         "addOwnerRef": {
@@ -1194,6 +1188,9 @@
         },
         "assemblyPhase": {
           "description": "AssemblyPhase represents the current phase of the application's assembly. An empty value is equivalent to \"Succeeded\".",
+          "type": "string"
+        },
+        "channel": {
           "type": "string"
         },
         "componentKinds": {
@@ -1260,6 +1257,36 @@
           "description": "ObservedGeneration is the most recent generation observed. It corresponds to the Object's generation, which is updated on mutation by the API Server.",
           "type": "integer",
           "format": "int64"
+        }
+      }
+    },
+    "dev.kubepack.kubepack.apis.kubepack.v1alpha1.ChartParameters": {
+      "description": "ChartParameters references to a single version of a Chart installed",
+      "type": "object",
+      "required": [
+        "name",
+        "url",
+        "version"
+      ],
+      "properties": {
+        "bundle": {
+          "$ref": "#/definitions/dev.kubepack.kubepack.apis.kubepack.v1alpha1.ChartRepoRef"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "valuesFile": {
+          "type": "string"
+        },
+        "valuesPatch": {
+          "description": "RFC 6902 compatible json patch. ref: http://jsonpatch.com",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension"
+        },
+        "version": {
+          "type": "string"
         }
       }
     },

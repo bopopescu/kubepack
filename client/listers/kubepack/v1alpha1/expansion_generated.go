@@ -30,6 +30,14 @@ type ApplicationNamespaceListerExpansion interface{}
 // BundleLister.
 type BundleListerExpansion interface{}
 
+// ChartListerExpansion allows custom methods to be added to
+// ChartLister.
+type ChartListerExpansion interface{}
+
+// ChartNamespaceListerExpansion allows custom methods to be added to
+// ChartNamespaceLister.
+type ChartNamespaceListerExpansion interface{}
+
 // OrderListerExpansion allows custom methods to be added to
 // OrderLister.
 type OrderListerExpansion interface{}

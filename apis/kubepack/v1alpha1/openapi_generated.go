@@ -329,11 +329,16 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.BundleSpec":                                         schema_kubepack_apis_kubepack_v1alpha1_BundleSpec(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.BundleStatus":                                       schema_kubepack_apis_kubepack_v1alpha1_BundleStatus(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.BundleView":                                         schema_kubepack_apis_kubepack_v1alpha1_BundleView(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Chart":                                              schema_kubepack_apis_kubepack_v1alpha1_Chart(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartCard":                                          schema_kubepack_apis_kubepack_v1alpha1_ChartCard(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartList":                                          schema_kubepack_apis_kubepack_v1alpha1_ChartList(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartOption":                                        schema_kubepack_apis_kubepack_v1alpha1_ChartOption(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartParameters":                                    schema_kubepack_apis_kubepack_v1alpha1_ChartParameters(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRef":                                           schema_kubepack_apis_kubepack_v1alpha1_ChartRef(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef":                                       schema_kubepack_apis_kubepack_v1alpha1_ChartRepoRef(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartSelection":                                     schema_kubepack_apis_kubepack_v1alpha1_ChartSelection(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartSpec":                                          schema_kubepack_apis_kubepack_v1alpha1_ChartSpec(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartStatus":                                        schema_kubepack_apis_kubepack_v1alpha1_ChartStatus(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ComponentList":                                      schema_kubepack_apis_kubepack_v1alpha1_ComponentList(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Condition":                                          schema_kubepack_apis_kubepack_v1alpha1_Condition(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ConfigMapKeySelector":                               schema_kubepack_apis_kubepack_v1alpha1_ConfigMapKeySelector(ref),
@@ -377,9 +382,12 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Repository":                                         schema_kubepack_apis_kubepack_v1alpha1_Repository(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceDefinitions":                                schema_kubepack_apis_kubepack_v1alpha1_ResourceDefinitions(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceID":                                         schema_kubepack_apis_kubepack_v1alpha1_ResourceID(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceValueMap":                                   schema_kubepack_apis_kubepack_v1alpha1_ResourceValueMap(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Row":                                                schema_kubepack_apis_kubepack_v1alpha1_Row(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.SecretKeySelector":                                  schema_kubepack_apis_kubepack_v1alpha1_SecretKeySelector(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ServiceSelector":                                    schema_kubepack_apis_kubepack_v1alpha1_ServiceSelector(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Step":                                               schema_kubepack_apis_kubepack_v1alpha1_Step(ref),
+		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ValueDef":                                           schema_kubepack_apis_kubepack_v1alpha1_ValueDef(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ValuesFile":                                         schema_kubepack_apis_kubepack_v1alpha1_ValuesFile(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.VersionDetail":                                      schema_kubepack_apis_kubepack_v1alpha1_VersionDetail(ref),
 		"kubepack.dev/kubepack/apis/kubepack/v1alpha1.VersionOption":                                      schema_kubepack_apis_kubepack_v1alpha1_VersionOption(ref),
@@ -14817,28 +14825,17 @@ func schema_kubepack_apis_kubepack_v1alpha1_ApplicationPackage(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"bundle": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef"),
-						},
-					},
 					"chart": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef"),
-						},
-					},
-					"channel": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartParameters"),
 						},
 					},
 				},
-				Required: []string{"chart", "channel"},
+				Required: []string{"chart"},
 			},
 		},
 		Dependencies: []string{
-			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef"},
+			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartParameters"},
 	}
 }
 
@@ -14906,8 +14903,14 @@ func schema_kubepack_apis_kubepack_v1alpha1_ApplicationSpec(ref common.Reference
 							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ApplicationPackage"),
 						},
 					},
+					"channel": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
-				Required: []string{"package"},
+				Required: []string{"package", "channel"},
 			},
 		},
 		Dependencies: []string{
@@ -15605,6 +15608,50 @@ func schema_kubepack_apis_kubepack_v1alpha1_BundleView(ref common.ReferenceCallb
 	}
 }
 
+func schema_kubepack_apis_kubepack_v1alpha1_Chart(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Chart is the Schema for the charts API",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartStatus"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartSpec", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartStatus"},
+	}
+}
+
 func schema_kubepack_apis_kubepack_v1alpha1_ChartCard(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15755,6 +15802,53 @@ func schema_kubepack_apis_kubepack_v1alpha1_ChartCard(ref common.ReferenceCallba
 	}
 }
 
+func schema_kubepack_apis_kubepack_v1alpha1_ChartList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ChartList contains a list of Chart",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.Chart"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.Chart"},
+	}
+}
+
 func schema_kubepack_apis_kubepack_v1alpha1_ChartOption(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15822,6 +15916,57 @@ func schema_kubepack_apis_kubepack_v1alpha1_ChartOption(ref common.ReferenceCall
 		},
 		Dependencies: []string{
 			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.VersionDetail"},
+	}
+}
+
+func schema_kubepack_apis_kubepack_v1alpha1_ChartParameters(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ChartParameters references to a single version of a Chart installed",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"bundle": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef"),
+						},
+					},
+					"valuesFile": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"valuesPatch": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RFC 6902 compatible json patch. ref: http://jsonpatch.com",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+				Required: []string{"name", "url", "version"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef"},
 	}
 }
 
@@ -15959,6 +16104,78 @@ func schema_kubepack_apis_kubepack_v1alpha1_ChartSelection(ref common.ReferenceC
 		},
 		Dependencies: []string{
 			"k8s.io/apimachinery/pkg/runtime.RawExtension", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ChartRepoRef", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceDefinitions", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.WaitFlags"},
+	}
+}
+
+func schema_kubepack_apis_kubepack_v1alpha1_ChartSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ChartSpec defines the specification for an Chart. Matches ChartMetadata: https://github.com/helm/helm/blob/v3.2.1/pkg/chart/metadata.go#L28-L65",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Description regroups information and metadata about an chart.",
+							Ref:         ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.Descriptor"),
+						},
+					},
+					"info": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Info contains human readable key,value pairs for the Chart.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.InfoItem"),
+									},
+								},
+							},
+						},
+					},
+					"steps": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.Step"),
+									},
+								},
+							},
+						},
+					},
+					"resources": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceDefinitions"),
+						},
+					},
+				},
+				Required: []string{"steps"},
+			},
+		},
+		Dependencies: []string{
+			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.Descriptor", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.InfoItem", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceDefinitions", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.Step"},
+	}
+}
+
+func schema_kubepack_apis_kubepack_v1alpha1_ChartStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ChartStatus defines controller's the observed state of Chart",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"observedGeneration": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ObservedGeneration is the most recent generation observed. It corresponds to the Object's generation, which is updated on mutation by the API Server.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+				},
+			},
+		},
 	}
 }
 
@@ -18087,6 +18304,60 @@ func schema_kubepack_apis_kubepack_v1alpha1_ResourceID(ref common.ReferenceCallb
 	}
 }
 
+func schema_kubepack_apis_kubepack_v1alpha1_ResourceValueMap(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"value": {
+						SchemaProps: spec.SchemaProps{
+							Description: "If not provided, use release namespace",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ValueDef"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"name", "namespace", "value"},
+			},
+		},
+		Dependencies: []string{
+			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ValueDef"},
+	}
+}
+
 func schema_kubepack_apis_kubepack_v1alpha1_Row(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -18259,6 +18530,84 @@ func schema_kubepack_apis_kubepack_v1alpha1_ServiceSelector(ref common.Reference
 						},
 					},
 				},
+			},
+		},
+	}
+}
+
+func schema_kubepack_apis_kubepack_v1alpha1_Step(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"templates": {
+						SchemaProps: spec.SchemaProps{
+							Description: "\n\t\tTemplates can be listed by name or via glob. Templates will be automatically searched inside the templates directory\n\t\tExamples:\n\t\t templates:\n\t\t   - service.yaml\n\t\t   - step/*",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"waitFors": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.WaitFlags"),
+									},
+								},
+							},
+						},
+					},
+					"exportValues": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceValueMap"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"templates", "exportValues"},
+			},
+		},
+		Dependencies: []string{
+			"kubepack.dev/kubepack/apis/kubepack/v1alpha1.ResourceValueMap", "kubepack.dev/kubepack/apis/kubepack/v1alpha1.WaitFlags"},
+	}
+}
+
+func schema_kubepack_apis_kubepack_v1alpha1_ValueDef(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"key": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"valuePath": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+				Required: []string{"key", "valuePath"},
 			},
 		},
 	}

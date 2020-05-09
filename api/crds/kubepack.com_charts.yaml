@@ -4,26 +4,26 @@ metadata:
   creationTimestamp: null
   labels:
     app: kubepack
-  name: applications.kubepack.com
+  name: charts.kubepack.com
 spec:
   group: kubepack.com
   names:
     categories:
     - kubepack
     - appscode
-    kind: Application
-    listKind: ApplicationList
-    plural: applications
+    kind: Chart
+    listKind: ChartList
+    plural: charts
     shortNames:
     - app
-    singular: application
+    singular: chart
   preserveUnknownFields: false
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: Application is the Schema for the applications API
+      description: Chart is the Schema for the charts API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -38,41 +38,12 @@ spec:
         metadata:
           type: object
         spec:
-          description: ApplicationSpec defines the specification for an Application.
+          description: 'ChartSpec defines the specification for an Chart. Matches
+            ChartMetadata: https://github.com/helm/helm/blob/v3.2.1/pkg/chart/metadata.go#L28-L65'
           properties:
-            addOwnerRef:
-              description: AddOwnerRef objects - flag to indicate if we need to add
-                OwnerRefs to matching objects Matching is done by using Selector to
-                query all ComponentGroupKinds
-              type: boolean
-            assemblyPhase:
-              description: AssemblyPhase represents the current phase of the application's
-                assembly. An empty value is equivalent to "Succeeded".
-              type: string
-            channel:
-              type: string
-            componentKinds:
-              description: ComponentGroupKinds is a list of Kinds for Application's
-                components (e.g. Deployments, Pods, Services, CRDs). It can be used
-                in conjunction with the Application's Selector to list or watch the
-                Applications components.
-              items:
-                description: GroupKind specifies a Group and a Kind, but does not
-                  force a version.  This is useful for identifying concepts during
-                  lookup stages without having partially valid types
-                properties:
-                  group:
-                    type: string
-                  kind:
-                    type: string
-                required:
-                - group
-                - kind
-                type: object
-              type: array
             description:
               description: Description regroups information and metadata about an
-                application.
+                chart.
               properties:
                 description:
                   description: Description is a brief string description of the Application.
@@ -176,7 +147,7 @@ spec:
                   type: string
               type: object
             info:
-              description: Info contains human readable key,value pairs for the Application.
+              description: Info contains human readable key,value pairs for the Chart.
               items:
                 description: InfoItem is a human readable key,value pair containing
                   important information about how to access the Application.
@@ -368,170 +339,210 @@ spec:
                     type: object
                 type: object
               type: array
-            package:
+            resources:
               properties:
-                chart:
-                  description: ChartParameters references to a single version of a
-                    Chart installed
-                  properties:
-                    bundle:
-                      description: ChartRepoRef references to a single version of
-                        a Chart
-                      properties:
-                        name:
-                          type: string
-                        url:
-                          type: string
-                        version:
-                          type: string
-                      required:
-                      - name
-                      - url
-                      - version
-                      type: object
-                    name:
-                      type: string
-                    url:
-                      type: string
-                    valuesFile:
-                      type: string
-                    valuesPatch:
-                      description: 'RFC 6902 compatible json patch. ref: http://jsonpatch.com'
-                      type: object
-                      x-kubernetes-preserve-unknown-fields: true
-                    version:
-                      type: string
-                  required:
-                  - name
-                  - url
-                  - version
-                  type: object
-              required:
-              - chart
-              type: object
-            selector:
-              description: 'Selector is a label query over kinds that created by the
-                application. It must match the component objects'' labels. More info:
-                https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors'
-              properties:
-                matchExpressions:
-                  description: matchExpressions is a list of label selector requirements.
-                    The requirements are ANDed.
+                owned:
                   items:
-                    description: A label selector requirement is a selector that contains
-                      values, a key, and an operator that relates the key and values.
+                    description: ResourceID identifies a resource
                     properties:
-                      key:
-                        description: key is the label key that the selector applies
-                          to.
+                      group:
                         type: string
-                      operator:
-                        description: operator represents a key's relationship to a
-                          set of values. Valid operators are In, NotIn, Exists and
-                          DoesNotExist.
+                      kind:
+                        description: Kind is the serialized kind of the resource.  It
+                          is normally CamelCase and singular.
                         type: string
-                      values:
-                        description: values is an array of string values. If the operator
-                          is In or NotIn, the values array must be non-empty. If the
-                          operator is Exists or DoesNotExist, the values array must
-                          be empty. This array is replaced during a strategic merge
-                          patch.
-                        items:
-                          type: string
-                        type: array
+                      name:
+                        description: 'Name is the plural name of the resource to serve.  It
+                          must match the name of the CustomResourceDefinition-registration
+                          too: plural.group and it must be all lowercase.'
+                        type: string
+                      scope:
+                        description: ResourceScope is an enum defining the different
+                          scopes available to a custom resource
+                        type: string
+                      version:
+                        type: string
                     required:
-                    - key
-                    - operator
+                    - group
+                    - kind
+                    - name
+                    - scope
+                    - version
                     type: object
                   type: array
-                matchLabels:
-                  additionalProperties:
-                    type: string
-                  description: matchLabels is a map of {key,value} pairs. A single
-                    {key,value} in the matchLabels map is equivalent to an element
-                    of matchExpressions, whose key field is "key", the operator is
-                    "In", and the values array contains only "value". The requirements
-                    are ANDed.
-                  type: object
+                required:
+                  items:
+                    description: ResourceID identifies a resource
+                    properties:
+                      group:
+                        type: string
+                      kind:
+                        description: Kind is the serialized kind of the resource.  It
+                          is normally CamelCase and singular.
+                        type: string
+                      name:
+                        description: 'Name is the plural name of the resource to serve.  It
+                          must match the name of the CustomResourceDefinition-registration
+                          too: plural.group and it must be all lowercase.'
+                        type: string
+                      scope:
+                        description: ResourceScope is an enum defining the different
+                          scopes available to a custom resource
+                        type: string
+                      version:
+                        type: string
+                    required:
+                    - group
+                    - kind
+                    - name
+                    - scope
+                    - version
+                    type: object
+                  type: array
+              required:
+              - owned
+              - required
               type: object
+            steps:
+              items:
+                properties:
+                  exportValues:
+                    items:
+                      properties:
+                        apiVersion:
+                          description: 'APIVersion defines the versioned schema of
+                            this representation of an object. Servers should convert
+                            recognized schemas to the latest internal value, and may
+                            reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                          type: string
+                        kind:
+                          description: 'Kind is a string value representing the REST
+                            resource this object represents. Servers may infer this
+                            from the endpoint the client submits requests to. Cannot
+                            be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                          type: string
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                        value:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              valuePath:
+                                type: string
+                            required:
+                            - key
+                            - valuePath
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      - namespace
+                      - value
+                      type: object
+                    type: array
+                  templates:
+                    description: "\t\tTemplates can be listed by name or via glob.
+                      Templates will be automatically searched inside the templates
+                      directory \t\tExamples: \t\t templates: \t\t   - service.yaml
+                      \t\t   - step/*"
+                    items:
+                      type: string
+                    type: array
+                  waitFors:
+                    items:
+                      properties:
+                        all:
+                          type: boolean
+                        for:
+                          type: string
+                        labels:
+                          description: A label selector is a label query over a set
+                            of resources. The result of matchLabels and matchExpressions
+                            are ANDed. An empty label selector matches all objects.
+                            A null label selector matches no objects.
+                          properties:
+                            matchExpressions:
+                              description: matchExpressions is a list of label selector
+                                requirements. The requirements are ANDed.
+                              items:
+                                description: A label selector requirement is a selector
+                                  that contains values, a key, and an operator that
+                                  relates the key and values.
+                                properties:
+                                  key:
+                                    description: key is the label key that the selector
+                                      applies to.
+                                    type: string
+                                  operator:
+                                    description: operator represents a key's relationship
+                                      to a set of values. Valid operators are In,
+                                      NotIn, Exists and DoesNotExist.
+                                    type: string
+                                  values:
+                                    description: values is an array of string values.
+                                      If the operator is In or NotIn, the values array
+                                      must be non-empty. If the operator is Exists
+                                      or DoesNotExist, the values array must be empty.
+                                      This array is replaced during a strategic merge
+                                      patch.
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - key
+                                - operator
+                                type: object
+                              type: array
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: matchLabels is a map of {key,value} pairs.
+                                A single {key,value} in the matchLabels map is equivalent
+                                to an element of matchExpressions, whose key field
+                                is "key", the operator is "In", and the values array
+                                contains only "value". The requirements are ANDed.
+                              type: object
+                          type: object
+                        resource:
+                          properties:
+                            group:
+                              type: string
+                            name:
+                              type: string
+                          required:
+                          - group
+                          - name
+                          type: object
+                        timeout:
+                          type: string
+                      required:
+                      - all
+                      - for
+                      - labels
+                      - resource
+                      - timeout
+                      type: object
+                    type: array
+                required:
+                - exportValues
+                - templates
+                type: object
+              type: array
           required:
-          - channel
-          - package
+          - steps
           type: object
         status:
-          description: ApplicationStatus defines controller's the observed state of
-            Application
+          description: ChartStatus defines controller's the observed state of Chart
           properties:
-            components:
-              description: Object status array for all matching objects
-              items:
-                description: ObjectStatus is a generic status holder for objects
-                properties:
-                  group:
-                    description: Object group
-                    type: string
-                  kind:
-                    description: Kind of object
-                    type: string
-                  link:
-                    description: Link to object
-                    type: string
-                  name:
-                    description: Name of object
-                    type: string
-                  status:
-                    description: 'Status. Values: InProgress, Ready, Unknown'
-                    type: string
-                type: object
-              type: array
-            conditions:
-              description: Conditions represents the latest state of the object
-              items:
-                description: Condition describes the state of an object at a certain
-                  point.
-                properties:
-                  lastTransitionTime:
-                    description: Last time the condition transitioned from one status
-                      to another.
-                    format: date-time
-                    type: string
-                  lastUpdateTime:
-                    description: Last time the condition was probed
-                    format: date-time
-                    type: string
-                  message:
-                    description: A human readable message indicating details about
-                      the transition.
-                    type: string
-                  reason:
-                    description: The reason for the condition's last transition.
-                    type: string
-                  status:
-                    description: Status of the condition, one of True, False, Unknown.
-                    type: string
-                  type:
-                    description: Type of condition.
-                    type: string
-                required:
-                - status
-                - type
-                type: object
-              type: array
-            errors:
-              items:
-                type: string
-              type: array
-            healthy:
-              description: 'CommonStatus taken from addon-operators. See: https://github.com/kubernetes-sigs/kubebuilder-declarative-pattern/blob/d91f6348488657f8606a6941f755aa530dd1b656/pkg/patterns/addon/pkg/apis/v1alpha1/common_types.go'
-              type: boolean
             observedGeneration:
               description: ObservedGeneration is the most recent generation observed.
                 It corresponds to the Object's generation, which is updated on mutation
                 by the API Server.
               format: int64
               type: integer
-          required:
-          - healthy
           type: object
       type: object
   version: v1alpha1

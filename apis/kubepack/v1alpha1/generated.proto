@@ -47,11 +47,7 @@ message ApplicationList {
 }
 
 message ApplicationPackage {
-  optional ChartRepoRef bundle = 4;
-
-  optional ChartRepoRef chart = 2;
-
-  optional string channel = 3;
+  optional ChartParameters chart = 1;
 }
 
 // ApplicationSpec defines the specification for an Application.
@@ -79,6 +75,8 @@ message ApplicationSpec {
   optional string assemblyPhase = 6;
 
   optional ApplicationPackage package = 7;
+
+  optional string channel = 8;
 }
 
 // ApplicationStatus defines controller's the observed state of Application
@@ -177,6 +175,15 @@ message BundleView {
   optional string licenseKey = 2;
 }
 
+// Chart is the Schema for the charts API
+message Chart {
+  optional k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta metadata = 1;
+
+  optional ChartSpec spec = 2;
+
+  optional ChartStatus status = 3;
+}
+
 message ChartCard {
   optional ChartRef chartRef = 1;
 
@@ -195,6 +202,13 @@ message ChartCard {
   optional bool selected = 8;
 }
 
+// ChartList contains a list of Chart
+message ChartList {
+  optional k8s.io.apimachinery.pkg.apis.meta.v1.ListMeta metadata = 1;
+
+  repeated Chart items = 2;
+}
+
 message ChartOption {
   optional ChartRef chartRef = 1;
 
@@ -207,6 +221,20 @@ message ChartOption {
   optional bool multiSelect = 5;
 
   optional bool required = 6;
+}
+
+// ChartParameters references to a single version of a Chart installed
+message ChartParameters {
+  optional ChartRepoRef chartRepoRef = 1;
+
+  optional ChartRepoRef bundle = 2;
+
+  optional string valuesFile = 3;
+
+  // RFC 6902 compatible json patch. ref: http://jsonpatch.com
+  // +optional
+  // +kubebuilder:pruning:PreserveUnknownFields
+  optional k8s.io.apimachinery.pkg.runtime.RawExtension valuesPatch = 4;
 }
 
 message ChartRef {
@@ -247,6 +275,28 @@ message ChartSelection {
   optional ResourceDefinitions resources = 8;
 
   repeated WaitFlags waitFors = 9;
+}
+
+// ChartSpec defines the specification for an Chart.
+// Matches ChartMetadata: https://github.com/helm/helm/blob/v3.2.1/pkg/chart/metadata.go#L28-L65
+message ChartSpec {
+  // Description regroups information and metadata about an chart.
+  optional Descriptor description = 1;
+
+  // Info contains human readable key,value pairs for the Chart.
+  repeated InfoItem info = 2;
+
+  repeated Step steps = 3;
+
+  optional ResourceDefinitions resources = 4;
+}
+
+// ChartStatus defines controller's the observed state of Chart
+message ChartStatus {
+  // ObservedGeneration is the most recent generation observed. It corresponds to the
+  // Object's generation, which is updated on mutation by the API Server.
+  // +optional
+  optional int64 observedGeneration = 1;
 }
 
 // ComponentList is a generic status holder for the top level resource
@@ -751,6 +801,15 @@ message ResourceID {
   optional string scope = 5;
 }
 
+message ResourceValueMap {
+  optional string name = 1;
+
+  optional string namespace = 2;
+
+  // If not provided, use release namespace
+  repeated ValueDef value = 3;
+}
+
 message Row {
   optional string trait = 1;
 
@@ -776,6 +835,25 @@ message ServiceSelector {
 
   // The optional HTTP path.
   optional string path = 3;
+}
+
+message Step {
+  // 		Templates can be listed by name or via glob. Templates will be automatically searched inside the templates directory
+  // 		Examples:
+  // 		 templates:
+  // 		   - service.yaml
+  // 		   - step/*
+  repeated string templates = 1;
+
+  repeated WaitFlags waitFors = 2;
+
+  repeated ResourceValueMap exportValues = 3;
+}
+
+message ValueDef {
+  optional string key = 1;
+
+  optional string valuePath = 2;
 }
 
 message ValuesFile {

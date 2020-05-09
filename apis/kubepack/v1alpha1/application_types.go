@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const (
@@ -80,6 +81,8 @@ type ApplicationSpec struct {
 	AssemblyPhase ApplicationAssemblyPhase `json:"assemblyPhase,omitempty" protobuf:"bytes,6,opt,name=assemblyPhase,casttype=ApplicationAssemblyPhase"`
 
 	Package ApplicationPackage `json:"package" protobuf:"bytes,7,opt,name=package"`
+
+	Channel ChannelType `json:"channel" protobuf:"bytes,8,opt,name=channel,casttype=ChannelType"`
 }
 
 // ComponentList is a generic status holder for the top level resource
@@ -324,9 +327,18 @@ type ApplicationList struct {
 }
 
 type ApplicationPackage struct {
-	Bundle  *ChartRepoRef `json:"bundle,omitempty" protobuf:"bytes,4,opt,name=bundle"`
-	Chart   ChartRepoRef  `json:"chart" protobuf:"bytes,2,opt,name=chart"`
-	Channel ChannelType   `json:"channel" protobuf:"bytes,3,opt,name=channel,casttype=ChannelType"`
+	Chart *ChartParameters `json:"chart" protobuf:"bytes,1,opt,name=chart"`
+}
+
+// ChartParameters references to a single version of a Chart installed
+type ChartParameters struct {
+	ChartRepoRef `json:",inline" protobuf:"bytes,1,opt,name=chartRepoRef"`
+	Bundle       *ChartRepoRef `json:"bundle,omitempty" protobuf:"bytes,2,opt,name=bundle"`
+	ValuesFile   string        `json:"valuesFile,omitempty" protobuf:"bytes,3,opt,name=valuesFile"`
+	// RFC 6902 compatible json patch. ref: http://jsonpatch.com
+	// +optional
+	// +kubebuilder:pruning:PreserveUnknownFields
+	ValuesPatch *runtime.RawExtension `json:"valuesPatch,omitempty" protobuf:"bytes,4,opt,name=valuesPatch"`
 }
 
 type ChannelType string
