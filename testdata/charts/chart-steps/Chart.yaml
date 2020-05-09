@@ -1,0 +1,40 @@
+apiVersion: v2
+name: chart-steps
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+steps:
+- name: install crds
+  templates:
+  - step-1/*
+  waitFors:
+  # kubectl wait --for=condition=NamesAccepted crd -l 'app=kubepack' --timeout=5m
+  - resource:
+      group: apiextensions.k8s.io
+      resource: customresourcedefinitions
+      labels:
+        matchLabels:
+          app: myapp
+      timeout: 5m
+      for: "condition=NamesAccepted"
+  exportValues:
+  - apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: mycrd.mygroup.com
+    values:
+    - key: .crd.name
+      value: .metadata.name
+- name: deploy operator
+  templates:
+  - step-2/*
+  waitFors:
+  # kubectl wait --for=condition=Ready pods -l app=myapp --timeout=5m
+  - resource:
+      group: apps
+      resource: deployments
+      labels:
+        matchLabels:
+          app: myapp
+      timeout: 5m
+      for: "condition=Ready"
